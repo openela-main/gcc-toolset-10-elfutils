@@ -1,0 +1,43 @@
+commit f172a31c56405750114924eba0786999bccc501f
+Author: Mark Wielaard <mark@klomp.org>
+Date:   Mon Nov 2 15:20:54 2020 +0100
+
+    tests: Create bogus R/nothing.rpm with cyclic symlink.
+    
+    We used to try to trigger an error during debuginfod scanning using
+    a chmod 000 file. But this doesn't always result in an error. Create
+    a cyclic symlink instead, which always results in a failure to open/read.
+    
+    Signed-off-by: Mark Wielaard <mark@klomp.org>
+
+diff --git a/tests/ChangeLog b/tests/ChangeLog
+index 57fc4c8e..2f8b75c3 100644
+--- a/tests/ChangeLog
++++ b/tests/ChangeLog
+@@ -1,3 +1,8 @@
++2020-11-02  Mark Wielaard  <mark@klomp.org>
++
++	* run-debuginfod-find.sh: Create bogus R/nothing.rpm with cyclic
++	symlink instead of chmod 000.
++
+ 2020-10-31  Mark Wielaard  <mark@klomp.org>
+ 
+ 	* dwfl-proc-attach.c (dlopen): New external function override.
+diff --git a/tests/run-debuginfod-find.sh b/tests/run-debuginfod-find.sh
+index 48dbc7d4..5af45667 100755
+--- a/tests/run-debuginfod-find.sh
++++ b/tests/run-debuginfod-find.sh
+@@ -95,9 +95,10 @@ wait_ready()
+   fi
+ }
+ 
+-# create a 000 empty .rpm file to evoke a metric-visible error
+-touch R/nothing.rpm
+-chmod 000 R/nothing.rpm
++# create a bogus .rpm file to evoke a metric-visible error
++# Use a cyclic symlink instead of chmod 000 to make sure even root
++# would see an error (running the testsuite under root is NOT encouraged).
++ln -s R/nothing.rpm R/nothing.rpm
+ 
+ env LD_LIBRARY_PATH=$ldpath DEBUGINFOD_URLS= ${abs_builddir}/../debuginfod/debuginfod $VERBOSE -F -R -d $DB -p $PORT1 -t0 -g0 --fdcache-fds 1 --fdcache-mbs 2 -Z .tar.xz -Z .tar.bz2=bzcat -v R F Z L > vlog4 2>&1 &
+ PID1=$!
