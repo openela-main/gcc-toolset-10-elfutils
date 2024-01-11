@@ -1,0 +1,52 @@
+diff --git a/debuginfod/Makefile.am b/debuginfod/Makefile.am
+index 52ead30a..9d7ce408 100644
+--- a/debuginfod/Makefile.am
++++ b/debuginfod/Makefile.am
+@@ -34,7 +34,7 @@ AM_CPPFLAGS += -I$(srcdir) -I$(srcdir)/../libelf -I$(srcdir)/../libebl \
+ 	   -I$(srcdir)/../libdw -I$(srcdir)/../libdwelf \
+ 	   $(libmicrohttpd_CFLAGS) $(libcurl_CFLAGS) $(sqlite3_CFLAGS) \
+ 	   $(libarchive_CFLAGS)
+-VERSION = 1
++VERSION = dts.1
+ 
+ # Disable eu- prefixing for artifacts (binaries & man pages) in this
+ # directory, since they do not conflict with binutils tools.
+diff --git a/libasm/Makefile.am b/libasm/Makefile.am
+index a92b63ad..a92f06de 100644
+--- a/libasm/Makefile.am
++++ b/libasm/Makefile.am
+@@ -31,7 +31,7 @@ include $(top_srcdir)/config/eu.am
+ AM_CPPFLAGS += -I$(top_srcdir)/libelf -I$(top_srcdir)/libebl -I$(top_srcdir)/libdw -I$(top_srcdir)/libdwelf
+ 
+ GCC_INCLUDE = -I$(shell $(CC) -print-file-name=include)
+-VERSION = 1
++VERSION = dts.1
+ 
+ lib_LIBRARIES = libasm.a
+ noinst_LIBRARIES = libasm_pic.a
+diff --git a/libdw/Makefile.am b/libdw/Makefile.am
+index ef566399..c6493a08 100644
+--- a/libdw/Makefile.am
++++ b/libdw/Makefile.am
+@@ -32,7 +32,7 @@ if BUILD_STATIC
+ AM_CFLAGS += $(fpic_CFLAGS)
+ endif
+ AM_CPPFLAGS += -I$(srcdir)/../libelf -I$(srcdir)/../libdwelf -pthread
+-VERSION = 1
++VERSION = dts.1
+ 
+ lib_LIBRARIES = libdw.a
+ noinst_LIBRARIES = libdw_pic.a
+diff --git a/libelf/Makefile.am b/libelf/Makefile.am
+index 51e86dc8..988d3ebe 100644
+--- a/libelf/Makefile.am
++++ b/libelf/Makefile.am
+@@ -32,7 +32,7 @@ if BUILD_STATIC
+ AM_CFLAGS += $(fpic_CFLAGS)
+ endif
+ GCC_INCLUDE = -I$(shell $(CC) -print-file-name=include)
+-VERSION = 1
++VERSION = dts.1
+ 
+ lib_LIBRARIES = libelf.a
+ noinst_LIBRARIES = libelf_pic.a
